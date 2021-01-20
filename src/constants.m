@@ -1,16 +1,31 @@
-% RE 30 Graphite Brushless
+clear all;
 
-RPM_CONV = 0.10472; 
+%=================%
+% Motor Constants %
+%=================%
+Km = 0.0452;       % Torque constant
+Kb = 1/22.09592;   % Back EMF constant - need to invert to match units from datasheet
+R = 7.25;           % Winding resistance
+L = 7.46e-7;        % Motor inducatance
+J = 8.82e-7;        % Rotor inertia
+B = 1.25e-7;        % Motor damping
 
 % Electrical Impedance %
-Ze_num = [1];
-Ze_den = [7.46e-7 7.25];
+ZE_NUM = [1];
+ZE_DEN = [L R];
 
 % Mechanical Impedance %
-Zm_num = [1];
-Zm_den = [(3.9774e-6 + 8.82e-7) 0.000805];
-%00013
+ZM_NUM = [1];
+ZM_DEN = [(3.9774e-6 + J) B];
+% If no load, just do 8.82e-7 (rotor inertia)
 
-% Constants %
-K_m = 0.0452;
-K_b = 22.09592;
+%=================%
+% Misc Constants %
+%==================%
+DRIVER_SAT = 24;
+CONTROLLER_SAT = 5;
+
+
+Tf_num = [Km];
+Tf_den = [ L*J (L*B + R*J) (R*B + Km*Kb) ];
+H = tf(Tf_num, Tf_den)
