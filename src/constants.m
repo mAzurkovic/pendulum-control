@@ -28,6 +28,15 @@ CONTROLLER_SAT = 5;
 SENSOR_GAIN = 1024 / 2*pi;  % ENX 16 EASY
 
 % Motor System TF
-Tf_num = [Km];
-Tf_den = [ L*J (L*B + R*J) (R*B + Km*Kb) ];
-H = tf(Tf_num, Tf_den)
+a = L*J
+b = (L*B + R*J);
+c = (R*B + Km*Kb);
+motor = tf([Km], [a b c]);
+
+% Driver System TF
+DAMPING = 0.61511;
+Wn = 3.515e7;
+DRIVER_GAIN = 4.7464;
+amp = DRIVER_GAIN * tf([Wn^2], [1 (2*DAMPING*Wn) Wn^2]);
+
+plant = amp*motor
