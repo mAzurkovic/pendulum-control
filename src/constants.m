@@ -8,7 +8,7 @@ Kb = 1/22.09592;      % Back EMF constant - need to invert to match units from d
 R = 7.25;             % Winding resistance
 L = 7.46e-7;          % Motor inducatance
 J = 8.82e-7;          % Rotor inertia
-B = 1.25e-7;          % Motor damping
+B = 8.7e-7            % Motor damping 1.25e-7;  
 J_PENDULUM = 2.23e-5; % 3.9774e-6;
 
 % Electrical Impedance %
